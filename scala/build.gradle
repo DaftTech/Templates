@@ -13,8 +13,7 @@ repositories {
 
 dependencies {
     compile([group: 'org.scala-lang', name: 'scala-library', version: version_scala],
-            [group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: version_akka],
-            [group: 'org.ow2.asm', name: 'asm-all', version: version_asm])
+            [group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: version_akka])
 }
 
 jar {
