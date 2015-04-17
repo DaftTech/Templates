@@ -7,7 +7,7 @@
 - **gradle.properties** set your project properties  
 
 - **.travis.yml** add maven repo credentials  
-`travis encode CI_DEPLOY_USERNAME=??? --add`  
-`travis encode CI_DEPLOY_PASSWORD=??? --add`  
+`travis encrypt CI_DEPLOY_USERNAME=??? --add`  
+`travis encrypt CI_DEPLOY_PASSWORD=??? --add`  
 
 - **build.gradle** edit dependencies
