@@ -1,0 +1,130 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'forge'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+minecraft {
+    version = version_minecraft + "-" + version_forge
+    if (project.hasProperty("version_mappings")) mappings = version_mappings
+    runDir = "build/run"
+}
+
+if (System.getenv("TRAVIS_BUILD_NUMBER") != null) version = version + "." + System.getenv("TRAVIS_BUILD_NUMBER")
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        if (project.hasProperty("mainClass")) attributes 'Main-Class': mainClass
+        if (project.hasProperty("accessTransformer")) attributes 'FMLAT': accessTransformer
+        if (project.hasProperty("corePlugin")) attributes 'FMLCorePlugin': corePlugin
+        if (project.hasProperty("corePluginContainsMod")) attributes 'FMLCorePluginContainsFMLMod': corePluginContainsMod
+    }
+}
+
+task tmpReobfJar(type: Copy, dependsOn: assemble) {
+    from jar.archivePath
+    into "build/tmp/reobfJar"
+    rename ".*", "obfOut.jar"
+}
+
+task reobfJar(type: Jar, dependsOn: tmpReobfJar) {
+    from zipTree("build/tmp/reobfJar/obfOut.jar")
+    manifest = jar.manifest
+}
+
+task deobfJar(type: Jar, dependsOn: jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task sourceJar(type: Jar, dependsOn: sourceMainJava) {
+    from "build/sources/java"
+    from "build/resources/main/java"
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from 'build/docs/javadoc'
+    classifier = 'javadoc'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom.withXml {
+                asNode().dependencies[0].dependency.find {
+                    if (it.groupId[0] == null) it.parent().remove(it)
+                    false
+                }
+            }
+
+            from components.java
+
+            setArtifacts([])
+
+            artifact reobfJar
+            artifact deobfJar
+            artifact sourceJar
+        }
+    }
+
+    repositories.maven {
+        if (!project.hasProperty("mavenUrl")) return;
+
+        credentials {
+            username System.getenv("CI_DEPLOY_USERNAME")
+            password System.getenv("CI_DEPLOY_PASSWORD")
+        }
+        url mavenUrl
+    }
+}
+
+build {
+    dependsOn deobfJar
+    dependsOn sourceJar
+}
