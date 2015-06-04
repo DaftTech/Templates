@@ -28,7 +28,8 @@ minecraft {
     runDir = "build/run"
 }
 
-if (System.getenv("TRAVIS_BUILD_NUMBER") != null) version = version + "." + System.getenv("TRAVIS_BUILD_NUMBER")
+String buildNum = System.getenv("TRAVIS_BUILD_NUMBER")
+if (buildNum != null) version += "+" + buildNum
 
 repositories {
     mavenLocal()
