@@ -8,6 +8,9 @@ gradle-app.setting
 
 #Other
 *.log
+*.trace.db
+*.lock.db
+Thumbs.db
 
 #Eclipse
 .project
