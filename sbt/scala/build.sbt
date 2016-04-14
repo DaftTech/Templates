@@ -1,4 +1,4 @@
-name := ""
+name := "Template"
 
 lazy val settings = Seq(
   version := "0.0.0",
