@@ -121,6 +121,7 @@ local.properties
 *.ipr
 *.iml
 .idea/
+!.idea/runConfigurations
 /out/
 projectFilesBackup*/
 
