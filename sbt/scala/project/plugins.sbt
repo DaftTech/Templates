@@ -1,3 +1,15 @@
 logLevel := Level.Warn
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.5")
+resolvers := Seq("Artifactory" at "http://lolhens.no-ip.org/artifactory/libs-release/")
+
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.0.1")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.4")
+
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.9")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-less" % "1.1.1")
+
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.13")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")

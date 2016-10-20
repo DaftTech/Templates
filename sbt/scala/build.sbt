@@ -5,26 +5,32 @@ lazy val settings = Seq(
 
   scalaVersion := "2.11.8",
 
-  resolvers ++= Seq(
-    "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/",
-    "Typesafe Releases" at "http://repo.typesafe.com/typesafe/maven-releases/",
-    Resolver.jcenterRepo
-  ),
+  resolvers := Seq("Artifactory" at "http://lolhens.no-ip.org/artifactory/libs-release/"),
 
   libraryDependencies ++= Seq(
-    "org.scala-lang" % "scala-compiler" % "2.11.8",
     "org.scala-lang" % "scala-reflect" % "2.11.8",
-    "com.typesafe.akka" %% "akka-actor" % "2.4.3",
-    "com.typesafe.akka" %% "akka-remote" % "2.4.3",
-    "com.chuusai" %% "shapeless" % "2.3.0"
+    "org.typelevel" %% "cats" % "0.7.2",
+    "com.chuusai" %% "shapeless" % "2.3.2",
+    "com.github.mpilquist" %% "simulacrum" % "0.10.0",
+    "io.monix" %% "monix" % "2.0.4",
+    "io.monix" %% "monix-cats" % "2.0.4",
+    "com.typesafe.akka" %% "akka-actor" % "2.4.11",
+    "com.typesafe.akka" %% "akka-remote" % "2.4.11",
+    "com.typesafe.akka" %% "akka-stream" % "2.4.11",
+    "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
+    "io.spray" %% "spray-json" % "1.3.2",
+    "com.github.fommil" %% "spray-json-shapeless" % "1.2.0"
   ),
+
+  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+  addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.2"),
 
   mainClass in Compile := Some(""),
 
   scalacOptions ++= Seq("-Xmax-classfile-name", "254")
 )
 
-lazy val root = Project("template", file("."))
+lazy val root = project.in(file("."))
   .enablePlugins(
     JavaAppPackaging,
     UniversalPlugin)
