@@ -15,3 +15,11 @@
 - [Universal Script](https://gist.github.com/LolHens/ee821a5cd1b2031856b21a0e78e1ecc9)
 - [Universal Jar](https://gist.github.com/LolHens/d04e239a499df499df4d4499934764af)
 - [Unpack JDK](https://gist.github.com/LolHens/aab6ff2df06f9a24b308aa9b43e0e196)
+
+## Recommended Resolvers
+```sbt
+resolvers ++= Seq(
+  "lolhens-maven" at "http://artifactory.lolhens.de/artifactory/maven-public/",
+  Resolver.url("lolhens-ivy", url("http://artifactory.lolhens.de/artifactory/ivy-public/"))(Resolver.ivyStylePatterns)
+)
+```
