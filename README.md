@@ -10,3 +10,8 @@
 
 ## Recommended Scala Compiler Plugins
 - `"com.olegpy" %% "better-monadic-for" % "0.2.0"`
+
+## Links
+- [Universal Script](https://gist.github.com/LolHens/ee821a5cd1b2031856b21a0e78e1ecc9)
+- [Universal Jar](https://gist.github.com/LolHens/d04e239a499df499df4d4499934764af)
+- [Unpack JDK](https://gist.github.com/LolHens/aab6ff2df06f9a24b308aa9b43e0e196)
