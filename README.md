@@ -2,6 +2,7 @@
 
 ## Recommended Scala Libraries
 - `"io.monix" %% "monix" % "3.0.0-RC1"`
+- `"org.typelevel" %% "cats-core" % "1.1.0"`
 - `"org.http4s" %% "http4s-dsl" % "0.18.12"`
 - `"org.http4s" %% "http4s-blaze-server" % "0.18.12"`
 - `"org.http4s" %% "http4s-blaze-client" % "0.18.12"`
